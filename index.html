@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NASA Satellite</title>
+    <link rel="stylesheet" href="style.css"> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body> 
+    <form action="">
+        <input type="number" id="sol" placeholder="Enter sol (max. 1000)" />
+        <input type="number" id="page" placeholder="Enter page number to display" />
+        <button type="submit">Get Images</button>
+    </form>
+<p id="text-heading">Mars Rover Images </p>
+    <div id="nasa-images" class="flex-center">
+    </div>
+    <script>
+        var nasaImages = $("#nasa-images");
+            console.log("kamlesh");
+            var solInput = $("#sol");
+            var pageInput = $("#page")
+            
+            $("form button").click(function (e) {
+                e.preventDefault();
+                
+                let sol = solInput.val();
+                let page = pageInput.val();
+                console.log(sol, page);
+                
+                if( sol === "" || page === "") {
+                    alert("Please fill the field");
+                    return;
+                }
+            
+                let url = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=" + sol + "&page=" + page + "&api_key=NBlCLhD21Eud5RxMy1TjZoeJedDa1c1qbsnLMIG2";
+                
+                $.get(url, function (data) {
+                    let photos = data.photos;
+                    
+                    console.log(photos);
+                    $("#nasa-images img").remove();
+            
+                    for (let photo of photos) {
+                        console.log(photo);;
+                    
+                        console.log("hell", photo.img_src, photo.id);
+                        nasaImages.append('<img height="300px" width="300px" src="' + photo.img_src + '" alt="' + photo.id + '">');
+                    }
+                });
+            
+            });
+            </script> 
+</body>
+</html>
